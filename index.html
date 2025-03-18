@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Picture-in-Picture API Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="Content/WebSharper.PictureInPicture.Sample.css" />
+    <style>
+        /* Don't show the not-yet-loaded templates */
+        [ws-template], [ws-children-template] { display: none; }
+    </style>
+    <script type="module" src="Content/WebSharper.PictureInPicture.Sample.head.js"></script>
+</head>
+<body>
+    <h1>Picture-in-Picture API Example</h1>
+    <div id="main" ws-children-template="Main">
+        <div ws-onafterrender="PageInit">
+            <video id="video" width="640" height="360" controls>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <br>
+            <button id="pipButton">Toggle PiP Mode</button>
+            <p>Click the button to enable Picture-in-Picture (PiP)</p>
+        </div>
+    </div>
+    <script type="module" src="Content/WebSharper.PictureInPicture.Sample.min.js"></script>
+</body>
+</html>
