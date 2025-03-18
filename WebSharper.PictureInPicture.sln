@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.PictureInPicture", "WebSharper.PictureInPicture\WebSharper.PictureInPicture.fsproj", "{B2FF2B6C-C90C-4C5F-B797-F7021FA3A90E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.PictureInPicture.Sample", "WebSharper.PictureInPicture.Sample\WebSharper.PictureInPicture.Sample.fsproj", "{7D04F9FC-0B4D-44D0-AAF6-F825BBB20598}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2FF2B6C-C90C-4C5F-B797-F7021FA3A90E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2FF2B6C-C90C-4C5F-B797-F7021FA3A90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2FF2B6C-C90C-4C5F-B797-F7021FA3A90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2FF2B6C-C90C-4C5F-B797-F7021FA3A90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D04F9FC-0B4D-44D0-AAF6-F825BBB20598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D04F9FC-0B4D-44D0-AAF6-F825BBB20598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D04F9FC-0B4D-44D0-AAF6-F825BBB20598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D04F9FC-0B4D-44D0-AAF6-F825BBB20598}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4759A2F7-E232-4CCB-80D5-5D942FA5AEE2}
+	EndGlobalSection
+EndGlobal
