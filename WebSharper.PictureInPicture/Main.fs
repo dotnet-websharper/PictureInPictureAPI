@@ -37,47 +37,13 @@ module Definition =
         |> WithSourceName "OnResize"
     ]
     |> ignore
-
-    let HTMLVideoElement =
-        Class "HTMLVideoElement"
-        |=> Inherits T<HTMLElement>
-        |+> Instance [
-            "disablePictureInPicture" =@ T<bool> 
-
-            "requestPictureInPicture" => T<unit> ^-> T<Promise<_>>[PictureInPictureWindow] 
-
-            "onenterpictureinpicture" =@ PictureInPictureEvent ^-> T<unit>
-            |> WithSourceName "onEnterPictureInPicture"
-            "onleavepictureinpicture " =@ PictureInPictureEvent ^-> T<unit>
-            |> WithSourceName "onLeavePictureInPicture"
-        ]
-
-    let Document =
-        Class "Document"
-        |=> Inherits T<Dom.Node>
-        |+> Instance [
-            "pictureInPictureEnabled" =? T<bool> 
-            "pictureInPictureElement" =? T<Dom.Element> 
-
-            "exitPictureInPicture" => T<unit> ^-> T<Promise<_>>[T<unit>] 
-        ]
-
-    let ShadowRoot =
-        Class "ShadowRoot"
-        |=> Inherits T<Dom.DocumentFragment>
-        |+> Instance [
-            "pictureInPictureElement" =? T<Dom.Element> 
-        ]
-
+        
     let Assembly =
         Assembly [
             Namespace "WebSharper.PictureInPicture" [
                 PictureInPictureWindow
                 PictureInPictureEventInit
                 PictureInPictureEvent
-                HTMLVideoElement
-                Document
-                ShadowRoot
             ]
         ]
 

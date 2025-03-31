@@ -81,8 +81,8 @@ module Client =
     let togglePiPMode () =
         promise {
             try
-                let doc = As<Document> <| JS.Document
-                if not (isNull doc.PictureInPictureElement) then
+                let doc = JS.Document
+                if Optional.isUndefined doc.PictureInPictureElement then
                     // Exit Picture-in-Picture mode if it's already active
                     do! doc.ExitPictureInPicture()
                 else

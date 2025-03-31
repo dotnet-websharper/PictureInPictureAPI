@@ -16,11 +16,12 @@ module Client =
     let video = JS.Document.GetElementById("video") |> As<HTMLVideoElement>
     let pipButton = JS.Document.GetElementById("pipButton") |> As<HTMLButtonElement>
 
-    let togglePiPMode () =
+    let togglePiPMode () = 
         promise {
             try
-                let doc = As<Document> <| JS.Document
-                if not (isNull doc.PictureInPictureElement) then
+                let doc = JS.Document
+                
+                if Optional.isUndefined doc.PictureInPictureElement then
                     do! doc.ExitPictureInPicture()
                 else
                     video.RequestPictureInPicture() |> ignore
