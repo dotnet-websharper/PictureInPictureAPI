@@ -32,7 +32,7 @@ function togglePiPMode(){
   return new Promise((_2) => {
     _2(new Promise((_3) => {
       const doc=globalThis.document;
-      let _4=!(doc.pictureInPictureElement==null)?doc.exitPictureInPicture().then(() => Promise.resolve(null)):(video().requestPictureInPicture(),Promise.resolve(null));
+      let _4=doc.pictureInPictureElement===void 0?doc.exitPictureInPicture().then(() => Promise.resolve(null)):(video().requestPictureInPicture(),Promise.resolve(null));
       _3(_4);
     })["catch"]((d) => {
       console.error("Error toggling Picture-in-Picture mode: "+String(unwrapExn(d)));
