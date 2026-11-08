@@ -1,0 +1,22 @@
+type file
+id WebSharper.PictureInPicture
+authors
+    IntelliFactory
+owners
+    IntelliFactory
+repositoryType git
+repositoryUrl https://github.com/dotnet-websharper/PictureInPictureAPI/
+licenseUrl https://github.com/dotnet-websharper/PictureInPictureAPI/blob/main/LICENSE.md
+iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
+projectUrl https://github.com/dotnet-websharper/PictureInPictureAPI
+description
+    WebSharper bindings for PictureInPicture
+tags
+    Web JavaScript F# C#
+files
+    ../WebSharper.PictureInPicture.Extensions/bin/Release/netstandard2.0/WebSharper.PictureInPicture.Extensions.dll ==> lib/netstandard2.0
+    ../WebSharper.PictureInPicture.Extensions/bin/Release/netstandard2.0/WebSharper.PictureInPicture.Extensions.xml ==> lib/netstandard2.0
+    ../WebSharper.PictureInPicture/bin/Release/netstandard2.0/WebSharper.PictureInPicture.dll ==> lib/netstandard2.0
+    ../WebSharper.PictureInPicture/bin/Release/netstandard2.0/WebSharper.PictureInPicture.xml ==> lib/netstandard2.0
+dependencies
+        WebSharper ~> LOCKEDVERSION:[3]
