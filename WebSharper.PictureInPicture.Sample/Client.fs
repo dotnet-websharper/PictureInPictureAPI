@@ -13,41 +13,40 @@ module Client =
     // and refresh your browser, no need to recompile unless you add or remove holes.
     type IndexTemplate = Template<"wwwroot/index.html", ClientLoad.FromDocument>
 
-    let video = JS.Document.GetElementById("video") |> As<HTMLVideoElement>
-    let pipButton = JS.Document.GetElementById("pipButton") |> As<HTMLButtonElement>
-
-    let togglePiPMode () = 
+    let togglePiPMode () =
         promise {
             try
+                let video = JS.Document.GetElementById("video") |> As<HTMLVideoElement>
                 let doc = JS.Document
-                
+
                 if Optional.isUndefined doc.PictureInPictureElement then
-                    do! doc.ExitPictureInPicture()
-                else
                     video.RequestPictureInPicture() |> ignore
+                else
+                    do! doc.ExitPictureInPicture()
             with error ->
                 Console.Error($"Error toggling Picture-in-Picture mode: {error}")
         }
 
     let setupPiPEvents () =
+        let video = JS.Document.GetElementById("video") |> As<HTMLVideoElement>
+        let pipButton = JS.Document.GetElementById("pipButton") |> As<HTMLButtonElement>
+
         video.AddEventListener("enterpictureinpicture", fun (_: Dom.Event) ->
             pipButton.InnerText <- "Exit PiP Mode"
         )
         video.AddEventListener("leavepictureinpicture", fun (_: Dom.Event) ->
             pipButton.InnerText <- "Toggle PiP Mode"
         )
+        pipButton.AddEventListener("click", fun (_: Dom.Event) ->
+            async {
+                do! togglePiPMode() |> Promise.AsAsync
+            } |> Async.StartImmediate
+        )
 
     [<SPAEntryPoint>]
     let Main () =
-
-        IndexTemplate.Main()
-            .PageInit(fun () -> 
+        IndexTemplate()
+            .PageInit(fun () ->
                 setupPiPEvents()
-                pipButton.AddEventListener("click", fun (_: Dom.Event) ->
-                    async {
-                        do! togglePiPMode() |> Promise.AsAsync
-                    } |> Async.StartImmediate
-                )
             )
-            .Doc()
-        |> Doc.RunById "main"
+            .Bind()

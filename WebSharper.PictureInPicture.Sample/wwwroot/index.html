@@ -1,29 +1,38 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Picture-in-Picture API Example</title>
+    <title>WebSharper Picture-in-Picture API Demo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%234f46e5'/%3E%3Crect x='2.5' y='4' width='11' height='8' rx='1.5' fill='white'/%3E%3Crect x='9' y='8' width='4' height='3' rx='0.5' fill='%234f46e5'/%3E%3C/svg%3E" />
     <link rel="stylesheet" type="text/css" href="Content/WebSharper.PictureInPicture.Sample.css" />
-    <style>
-        /* Don't show the not-yet-loaded templates */
-        [ws-template], [ws-children-template] { display: none; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="site.css" />
     <script type="module" src="Content/WebSharper.PictureInPicture.Sample.head.js"></script>
 </head>
 <body>
-    <h1>Picture-in-Picture API Example</h1>
-    <div id="main" ws-children-template="Main">
-        <div ws-onafterrender="PageInit">
-            <video id="video" width="640" height="360" controls>
+    <main class="page" ws-onafterrender="PageInit">
+        <header class="hero">
+            <h1>Picture-in-Picture API Demo</h1>
+            <p class="lede">
+                Enter and leave Picture-in-Picture mode for a video element with the
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API" target="_blank" rel="noreferrer">Picture-in-Picture API</a>.
+                The page must run in a secure context (HTTPS or localhost).
+            </p>
+        </header>
+
+        <section class="card">
+            <h2>Video</h2>
+            <p class="hint">Play the video, then toggle Picture-in-Picture mode.</p>
+            <video id="video" class="video" width="640" height="360" controls>
                 <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <br>
-            <button id="pipButton">Toggle PiP Mode</button>
-            <p>Click the button to enable Picture-in-Picture (PiP)</p>
-        </div>
-    </div>
+            <div class="actions">
+                <button id="pipButton" class="btn btn-primary" type="button">Toggle PiP mode</button>
+            </div>
+            <p class="status" role="status">Toggle Picture-in-Picture (PiP) with the button above.</p>
+        </section>
+    </main>
     <script type="module" src="Content/WebSharper.PictureInPicture.Sample.min.js"></script>
 </body>
 </html>

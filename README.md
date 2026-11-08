@@ -1,126 +1,142 @@
-# WebSharper Picture-in-Picture API Binding
+# WebSharper.PictureInPicture
 
-This repository provides an F# [WebSharper](https://websharper.com/) binding for the [Picture-in-Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API), enabling seamless integration of Picture-in-Picture (PiP) functionality into WebSharper applications.
+[![NuGet](https://img.shields.io/badge/nuget-not%20published-lightgrey)](https://github.com/dotnet-websharper/PictureInPictureAPI)
 
-## Repository Structure
+WebSharper bindings for the [Picture-in-Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API) —
+entering and leaving Picture-in-Picture mode for HTML video elements.
 
-The repository consists of two main projects:
+The Picture-in-Picture API is only available in [secure contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Secure_Contexts)
+(HTTPS or localhost), and the user must trigger it with a gesture.
 
-1. **Binding Project**:
+This repository contains:
 
-   - Contains the F# WebSharper binding for the Picture-in-Picture API.
+| Project | Purpose |
+| --- | --- |
+| `WebSharper.PictureInPicture` | The binding: WIG definitions for `PictureInPictureWindow`, `PictureInPictureEvent`, and `PictureInPictureEventInit`. |
+| `WebSharper.PictureInPicture.Extensions` | `[<Inline>]` client extensions: `requestPictureInPicture()`, `disablePictureInPicture`, and the enter/leave events on `HTMLVideoElement`. |
+| `WebSharper.PictureInPicture.Sample` | An ASP.NET Core SPA that toggles Picture-in-Picture mode on a video element. |
 
-2. **Sample Project**:
-   - Demonstrates how to use the Picture-in-Picture API with WebSharper syntax.
-   - Includes a GitHub Pages demo: [View Demo](https://dotnet-websharper.github.io/PictureInPictureAPI/)
+## Live demos
+
+**Try it live:** [Open the sample in your browser](https://dotnet-websharper.github.io/PictureInPictureAPI/)
+
+![Picture-in-Picture API sample](docs/sample.png)
+
+The sample doubles as the binding's [test case](#running-the-sample): it enters and leaves Picture-in-Picture mode on a real video element in a real browser.
+
+- **Sample (this repository):** <https://dotnet-websharper.github.io/PictureInPictureAPI/>
+- **Source repository:** <https://github.com/dotnet-websharper/PictureInPictureAPI>
+- **WebSharper bindings:** <https://websharper.com/bindings>
+
+## Features
+
+- `PictureInPictureWindow` (`width`, `height`, `onresize`).
+- `PictureInPictureEvent` (`pictureInPictureWindow`) and `PictureInPictureEventInit`.
+- `HTMLVideoElement.requestPictureInPicture()` and `disablePictureInPicture`.
+- `HTMLVideoElement.onenterpictureinpicture` and `onleavepictureinpicture`.
+- `document.pictureInPictureElement` and `document.exitPictureInPicture()` from the core `Document` type.
 
 ## Installation
 
-To use this package in your WebSharper project, add the NuGet package:
+The binding is not currently published to NuGet. Reference the projects from source:
 
 ```bash
-   dotnet add package WebSharper.PictureInPicture
+git clone https://github.com/dotnet-websharper/PictureInPictureAPI.git
 ```
 
-## Building
+```xml
+<ItemGroup>
+  <ProjectReference Include="path/to/WebSharper.PictureInPicture/WebSharper.PictureInPicture.fsproj" />
+  <ProjectReference Include="path/to/WebSharper.PictureInPicture.Extensions/WebSharper.PictureInPicture.Extensions.fsproj" />
+</ItemGroup>
+```
 
-### Prerequisites
-
-- [.NET SDK](https://dotnet.microsoft.com/download) installed on your machine.
-
-### Steps
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/dotnet-websharper/PictureInPictureAPI.git
-   cd PictureInPictureAPI
-   ```
-
-2. Build the Binding Project:
-
-   ```bash
-   dotnet build WebSharper.PictureInPicture/WebSharper.PictureInPicture.fsproj
-   ```
-
-3. Build and Run the Sample Project:
-
-   ```bash
-   cd WebSharper.PictureInPicture.Sample
-   dotnet build
-   dotnet run
-   ```
-
-4. Open the sample project in your browser to see it in action.
-
-## Example Usage
-
-Below is an example of how to use the Picture-in-Picture API in a WebSharper project:
+## Usage
 
 ```fsharp
-namespace WebSharper.PictureInPicture.Sample
+namespace WebSharper.PictureInPicture.Demo
 
 open WebSharper
 open WebSharper.JavaScript
-open WebSharper.UI
-open WebSharper.UI.Client
-open WebSharper.UI.Templating
 open WebSharper.PictureInPicture
 
 [<JavaScript>]
-module Client =
-    // The templates are loaded from the DOM, so you just can edit index.html
-    // and refresh your browser, no need to recompile unless you add or remove holes.
-    type IndexTemplate = Template<"wwwroot/index.html", ClientLoad.FromDocument>
-
-    // Get references to the video element and PiP toggle button
-    let video = JS.Document.GetElementById("video") |> As<HTMLVideoElement>
-    let pipButton = JS.Document.GetElementById("pipButton") |> As<HTMLButtonElement>
-
-    // Function to toggle Picture-in-Picture mode
-    let togglePiPMode () =
+module Demo =
+    let togglePiP (video: HTMLVideoElement) =
         promise {
-            try
-                let doc = JS.Document
-                if Optional.isUndefined doc.PictureInPictureElement then
-                    // Exit Picture-in-Picture mode if it's already active
-                    do! doc.ExitPictureInPicture()
-                else
-                    // Request to enter Picture-in-Picture mode
-                    video.RequestPictureInPicture() |> ignore
-            with error ->
-                Console.Error($"Error toggling Picture-in-Picture mode: {error}")
+            let doc = JS.Document
+            if Optional.isUndefined doc.PictureInPictureElement then
+                let! _ = video.RequestPictureInPicture()
+                ()
+            else
+                do! doc.ExitPictureInPicture()
         }
-
-    // Set up event listeners to update button text when PiP mode changes
-    let setupPiPEvents () =
-        video.AddEventListener("enterpictureinpicture", fun (_: Dom.Event) ->
-            pipButton.InnerText <- "Exit PiP Mode"
-        )
-        video.AddEventListener("leavepictureinpicture", fun (_: Dom.Event) ->
-            pipButton.InnerText <- "Toggle PiP Mode"
-        )
-
-    [<SPAEntryPoint>]
-    let Main () =
-
-        IndexTemplate.Main()
-            .PageInit(fun () ->
-                setupPiPEvents()
-                pipButton.AddEventListener("click", fun (_: Dom.Event) ->
-                    async {
-                        do! togglePiPMode() |> Promise.AsAsync
-                    } |> Async.StartImmediate
-                )
-            )
-            .Doc()
-        |> Doc.RunById "main"
 ```
 
-This example demonstrates how to toggle Picture-in-Picture mode for a video element, handling user interaction and updating UI elements accordingly.
+The `requestPictureInPicture()` and `disablePictureInPicture` members are declared in the Extensions assembly and hang off
+`HTMLVideoElement`. `PictureInPictureWindow` is a `Dom.EventTarget` with `width`, `height`, and an `onresize` event.
 
-## Important Considerations
+## Running the sample
 
-- **Browser Support**: The Picture-in-Picture API is not supported on all browsers. Check the [MDN Picture-in-Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Picture-in-Picture_API) for compatibility details.
-- **User Gesture Requirement**: Some browsers require user interaction (e.g., a button click) before allowing Picture-in-Picture mode.
-- **Limitations**: Only one video can be in Picture-in-Picture mode at a time.
+Build the sample in Release and serve its static output:
+
+```bash
+dotnet build WebSharper.PictureInPicture.Sample/WebSharper.PictureInPicture.Sample.fsproj -c Release
+python3 -m http.server -d WebSharper.PictureInPicture.Sample/wwwroot 8202
+```
+
+Open <http://localhost:8202/>. Localhost counts as a secure context, so the Picture-in-Picture API is available.
+
+Alternatively, run the ASP.NET Core host:
+
+```bash
+dotnet run --project WebSharper.PictureInPicture.Sample
+```
+
+## Building from source
+
+### Prerequisites
+
+- [.NET SDK 10](https://dotnet.microsoft.com/download) or later.
+
+### Build
+
+```bash
+dotnet build WebSharper.PictureInPicture.sln -c Release
+```
+
+The binding projects target `netstandard2.0`; the sample targets `net10.0`.
+
+## Deployment
+
+Pushing to `main` triggers `.github/workflows/ghpages.yml`, which builds the sample in Release and publishes
+`WebSharper.PictureInPicture.Sample/wwwroot` to the `gh-pages` branch.
+
+## Repository layout
+
+```
+WebSharper.PictureInPicture/              # binding (WIG definitions)
+  Main.fs
+WebSharper.PictureInPicture.Extensions/   # [<Inline>] client extensions
+  Library.fs
+WebSharper.PictureInPicture.Sample/       # ASP.NET Core SPA demo
+  Client.fs
+  Startup.fs
+  wwwroot/
+    index.html
+    site.css
+.github/workflows/ghpages.yml             # build + deploy the sample to GitHub Pages
+```
+
+## Notes on the API
+
+- **Secure context:** the Picture-in-Picture API is only exposed in secure contexts. Serve the page over HTTPS or
+  from localhost.
+- **User gesture:** the request must come from a user gesture (for example, a button click).
+- **One window:** only one video element can be in PiP mode at a time.
+- **Browser support:** support varies by browser. Check the MDN compatibility table before relying on it.
+- **Video source:** the sample uses a public MP4 sample. Replace it with your own video for production.
+
+## License
+
+Apache 2.0 — see [LICENSE.md](LICENSE.md).
