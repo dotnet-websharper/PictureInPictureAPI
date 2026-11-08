@@ -15,8 +15,10 @@ tags
     Web JavaScript F# C#
 files
     ../WebSharper.PictureInPicture.Extensions/bin/Release/netstandard2.0/WebSharper.PictureInPicture.Extensions.dll ==> lib/netstandard2.0
+    ../WebSharper.PictureInPicture.Extensions/bin/Release/netstandard2.0/WebSharper.PictureInPicture.Extensions.websharper ==> lib/netstandard2.0
     ../WebSharper.PictureInPicture.Extensions/bin/Release/netstandard2.0/WebSharper.PictureInPicture.Extensions.xml ==> lib/netstandard2.0
     ../WebSharper.PictureInPicture/bin/Release/netstandard2.0/WebSharper.PictureInPicture.dll ==> lib/netstandard2.0
+    ../WebSharper.PictureInPicture/bin/Release/netstandard2.0/WebSharper.PictureInPicture.websharper ==> lib/netstandard2.0
     ../WebSharper.PictureInPicture/bin/Release/netstandard2.0/WebSharper.PictureInPicture.xml ==> lib/netstandard2.0
 dependencies
         WebSharper ~> LOCKEDVERSION:[3]
