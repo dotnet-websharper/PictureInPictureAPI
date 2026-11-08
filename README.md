@@ -22,7 +22,7 @@ This repository contains:
 
 ![Picture-in-Picture API sample](docs/sample.png)
 
-The sample doubles as the binding's test case: it enters and leaves Picture-in-Picture mode on a real video element in a real browser.
+The sample doubles as the binding's [test case](#running-the-sample): it enters and leaves Picture-in-Picture mode on a real video element in a real browser.
 
 - **Sample (this repository):** <https://dotnet-websharper.github.io/PictureInPictureAPI/>
 - **Source repository:** <https://github.com/dotnet-websharper/PictureInPictureAPI>
