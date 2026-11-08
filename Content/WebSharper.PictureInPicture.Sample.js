@@ -39,8 +39,8 @@ function togglePiPMode(){
       const doc=globalThis.document;
       let _3=doc.pictureInPictureElement===void 0?(video.requestPictureInPicture(),Promise.resolve(null)):doc.exitPictureInPicture().then(() => Promise.resolve(null));
       _2(_3);
-    })["catch"]((d) => {
-      console.error("Error toggling Picture-in-Picture mode: "+String(unwrapExn(d)));
+    })["catch"]((a) => {
+      console.error("Error toggling Picture-in-Picture mode: "+String(unwrapExn(a)));
       return Promise.resolve(null);
     }));
   });
@@ -3102,7 +3102,7 @@ class Event extends TemplateHole {
 }
 function Handler(name, callback){
   return Attr.A3((el) => {
-    el.addEventListener(name, (d) =>(callback(el))(d), false);
+    el.addEventListener(name, (o) =>(callback(el))(o), false);
   });
 }
 function OnAfterRender(callback){
@@ -3150,7 +3150,7 @@ class EventQ extends TemplateHole {
 class Attr {
   static HandlerImpl(event, q){
     return Attr.A3((el) => {
-      el.addEventListener(event, (d) =>(q(el))(d), false);
+      el.addEventListener(event, (o) =>(q(el))(o), false);
     });
   }
   static Concat(xs){
